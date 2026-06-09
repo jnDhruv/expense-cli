@@ -1,13 +1,22 @@
 import argparse
 import functions
 
+def validateAmount(amt):
+    try:
+        amt = float(amt)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"{amt} is not a valid amount!")
+    if amt <= 0:
+        raise argparse.ArgumentTypeError(f"Negative or zero amount entered!")
+    return amt
+
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='available commands',help="all commands", required=True, dest="command");
 
 # ADD - ADD A NEW EXPENSE
 add_parser = subparsers.add_parser('add', help='add a new expense')
-add_parser.add_argument("--desc", "-d","--description", help="expense description")
-add_parser.add_argument("--amount", "-am", help="amount spent", type=float)
+add_parser.add_argument("--desc", "-d","--description", help="expense description", required=True)
+add_parser.add_argument("--amount", "-amt", help="amount spent", type=validateAmount, required=True)
 add_parser.set_defaults(func=functions.add)
 
 # DELETE - DELETE AN EXISTING EXPENSE
