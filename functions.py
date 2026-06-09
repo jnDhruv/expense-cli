@@ -1,5 +1,6 @@
 import datetime
 import json
+import sys
 
 def load():
     try:
@@ -7,6 +8,9 @@ def load():
             return json.load(data)["expenses"]
     except FileNotFoundError:
         return []
+    except json.decoder.JSONDecodeError:
+        sys.stderr.write("Error: Corrupt or invalid data.json")
+        sys.exit(1)
 
 def save(expenses):
     with open('data.json', 'w') as data:
@@ -37,10 +41,10 @@ def delete(args):
         if exp["id"] == args.id:
             expenses.remove(exp)
             print(f"Deleted the expense '{exp["desc"]}' of {exp["amount"]}")
+            save(expenses)
             break
     else:
         print("No such expense found!")
-    save(expenses)
     
 def viewList(args):
     expenses = load()
