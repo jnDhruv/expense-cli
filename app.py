@@ -11,13 +11,20 @@ def validateAmount(amt):
     return amt
 
 parser = argparse.ArgumentParser()
-subparsers = parser.add_subparsers(title='available commands',help="all commands", required=True, dest="command");
+subparsers = parser.add_subparsers(title='available commands', required=True, dest="command");
 
 # ADD - ADD A NEW EXPENSE
 add_parser = subparsers.add_parser('add', help='add a new expense')
 add_parser.add_argument("--desc", "-d","--description", help="expense description", required=True)
 add_parser.add_argument("--amount", "-amt", help="amount spent", type=validateAmount, required=True)
 add_parser.set_defaults(func=functions.add)
+
+# UPDATE - UPDATE AN EXISTING EXPENSE
+update_parser = subparsers.add_parser('update', help="update an existing expense")
+update_parser.add_argument("id", help="ID of the expense to update", type=int)
+update_parser.add_argument("--desc", "-d", "--description", help="update the expense's description")
+update_parser.add_argument("--amount", "-amt", help="update the expense's amount", type=validateAmount)
+update_parser.set_defaults(func=functions.update)
 
 # DELETE - DELETE AN EXISTING EXPENSE
 delete_parser = subparsers.add_parser('delete', help='delete an existing expense')

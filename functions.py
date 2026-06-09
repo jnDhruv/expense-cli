@@ -44,6 +44,32 @@ def add(args):
     save(expenses)
     print(f"Added an expense of {newExp["amount"]} spent on {newExp["desc"]}")
 
+def update(args):
+    # args - id, [desc], [amount]
+    expenses = load()
+
+    if not expenses:
+        print("No expenses added yet!")
+        return
+    
+    if not args.desc and not args.amount:
+        print("No update values specified!")
+        sys.exit(1)
+
+    for exp in expenses:
+        if exp["id"] == args.id:
+            #update it
+            if args.desc:
+                exp["desc"] = args.desc
+                print(f"Updated expense description to {args.desc}")
+            if args.amount:
+                exp["amount"] = args.amount
+                print(f"Updated expense amount to {args.amount}")
+            save(expenses)
+            break
+    else:
+        print("No such expense found!")
+
 def delete(args):
     # args - id
     expenses = load()
@@ -62,6 +88,7 @@ def delete(args):
         print("No such expense found!")
     
 def viewList(args):
+    # args - 
     expenses = load()
     if not expenses:
         print("No expenses added yet!")
@@ -70,6 +97,7 @@ def viewList(args):
         print(exp)
 
 def summary(args):
+    # args - [month]
     expenses = load()
     if not expenses:
         print("No expenses added yet!")
