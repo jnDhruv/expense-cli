@@ -93,8 +93,15 @@ def viewList(args):
     if not expenses:
         print("No expenses added yet!")
         return
+    print(f"{"ID":<10}"
+    + f"{"Description":<30}"
+    + f"{"Amount":<15}"
+    + "Date")
     for exp in expenses:
-        print(exp)
+        print(f"{exp["id"]:<10}"
+        + f"{exp["desc"]:<30}"
+        + f"{exp["amount"]:<15}"
+        + f"{exp["day"]:02d}-{exp["month"]:02d}-{exp["year"]:04d}")
 
 def summary(args):
     # args - [month]
