@@ -28,5 +28,10 @@ delete_parser.set_defaults(func=functions.delete)
 list_parser = subparsers.add_parser('list', help='list all expenses')
 list_parser.set_defaults(func=functions.viewList)
 
+# SUMMARY - SUMMARIZE ALL EXPENSES
+summary_parser = subparsers.add_parser('summary', help='summarize expenses')
+summary_parser.add_argument("--month", "-m", help='summary of specified month', type=int)
+summary_parser.set_defaults(func=functions.summary)
+
 args = parser.parse_args()
 args.func(args)

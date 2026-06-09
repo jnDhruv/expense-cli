@@ -2,6 +2,21 @@ import datetime
 import json
 import sys
 
+months = {
+    1 : "January",
+    2 : "February",
+    3 : "March",
+    4 : "April",
+    5 : "May",
+    6 : "June",
+    7 : "July",
+    8 : "August",
+    9 : "September",
+    10: "October",
+    11: "November",
+    12: "December"
+}
+
 def load():
     try:
         with open('data.json', 'r') as data:
@@ -53,3 +68,20 @@ def viewList(args):
         return
     for exp in expenses:
         print(exp)
+
+def summary(args):
+    expenses = load()
+    if not expenses:
+        print("No expenses added yet!")
+        return
+    total = 0
+    if args.month:
+        if args.month not in months:
+            print(f"{args.month} is not a valid month!")
+            return
+        
+        total = sum([exp["amount"] for exp in expenses if exp["month"] == args.month])
+        print(f"Total expenses for {months[args.month]}: {total}")
+    else:
+        total = sum([exp["amount"] for exp in expenses])
+        print(f"Total expenses: {total}")
