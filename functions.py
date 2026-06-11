@@ -1,6 +1,7 @@
 import datetime
 import json
 import sys
+import csv
 
 months = {
     1 : "January",
@@ -109,7 +110,7 @@ def viewList(args):
         tableRow(exp)
 
 def summary(args):
-    # args - [month]
+    # args - [month] [category]
     expenses = load()
     if not expenses:
         print("No expenses added yet!")
@@ -139,6 +140,19 @@ def summary(args):
         print(f"Total expenses for {months[args.month]}: {total}")
     else:
         print(f"Total expenses: {total}")
+
+def export(args):
+    expenses = load()
+    if not expenses:
+        print("No expenses added yet!")
+        return
+
+    with open('export.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["ID", "Description", "Amount", "Category", "Date"])
+        for exp in expenses:
+            writer.writerow([exp["id"], exp["desc"], exp["amount"], exp["category"], f"{exp["day"]}-{exp["month"]}-{exp["year"]}"])
+    print("Successfully exported expenses to 'export.csv'!")
 
 def tableHeader():
     print(f"{"ID":<10}"

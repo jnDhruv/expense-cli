@@ -53,5 +53,9 @@ summary_parser.add_argument("--month", "-m", help='summary of specified month', 
 summary_parser.add_argument("--category", "-c", help='filter summary by category')
 summary_parser.set_defaults(func=functions.summary)
 
+# EXPORT - EXPORT EXISTING DATA TO EXPORT.CSV
+export_parser = subparsers.add_parser('export', help='export expenses to export.csv')
+export_parser.set_defaults(func=functions.export)
+
 args = parser.parse_args()
 args.func(args)
